@@ -12,7 +12,7 @@ def get_authors():
 @app.route('/authors/<int:author_id>', methods=["GET"])
 def get_author_by_id(author_id):
     author = AuthorModel.query.get(author_id)
-    if author:
+    if author is None:
         return f"Author id={author_id} not found", 404
 
     return author.to_dict(), 200
@@ -34,6 +34,7 @@ def edit_author(author_id):
     if author is None:
         return {"Error": f"Author id={author_id} not found"}, 404
     author.name = author_data["name"]
+    db.session.commit()
     return author.to_dict(), 200
 
 
