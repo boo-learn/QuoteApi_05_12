@@ -16,7 +16,7 @@ def get_author_by_id(author_id):
     if author is None:
         return f"Author id={author_id} not found", 404
 
-    return author.to_dict(), 200
+    return author_schema.dump(author), 200
 
 
 @app.route('/authors', methods=["POST"])
@@ -25,7 +25,7 @@ def create_author():
     author = AuthorModel(author_data["name"])
     db.session.add(author)
     db.session.commit()
-    return author.to_dict(), 201
+    return author_schema.dump(author), 201
 
 
 @app.route('/authors/<int:author_id>', methods=["PUT"])
@@ -36,7 +36,7 @@ def edit_author(author_id):
         return {"Error": f"Author id={author_id} not found"}, 404
     author.name = author_data["name"]
     db.session.commit()
-    return author.to_dict(), 200
+    return author_schema.dump(author), 200
 
 
 @app.route('/authors/<int:author_id>', methods=["PUT"])
