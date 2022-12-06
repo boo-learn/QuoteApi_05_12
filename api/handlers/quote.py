@@ -32,7 +32,7 @@ def get_quotes(author_id=None, quote_id=None):
 
 
 @app.route('/authors/<int:author_id>/quotes', methods=["POST"])
-@multi_auth.login_required
+@multi_auth.login_required(role='admin')
 def create_quote(author_id):
     print("user=", multi_auth.current_user())
     quote_data = request.json

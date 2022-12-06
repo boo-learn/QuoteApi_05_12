@@ -31,3 +31,8 @@ def verify_token(token):
     user = UserModel.verify_auth_token(token)
     print(f"{user=}")
     return user
+
+
+@basic_auth.get_user_roles
+def get_user_roles(user):
+    return user.get_roles()
