@@ -3,12 +3,12 @@ from api.models.quote import QuoteModel
 from api.schemas.author import AuthorSchema
 
 
-class QuoteSchema(ma.SQLAlchemySchema):
+class QuoteSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = QuoteModel
 
-    id = ma.auto_field()
-    text = ma.auto_field()
+    # id = ma.auto_field()
+    # text = ma.auto_field()
     author = ma.Nested(AuthorSchema())
 
 
