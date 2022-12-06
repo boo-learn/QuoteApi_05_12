@@ -11,12 +11,12 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 ma = Marshmallow(app)
-auth = HTTPBasicAuth()
-# token_auth = HTTPTokenAuth('Bearer')
-# multi_auth = MultiAuth(basic_auth, token_auth)
+basic_auth = HTTPBasicAuth()
+token_auth = HTTPTokenAuth('Bearer')
+multi_auth = MultiAuth(basic_auth, token_auth)
 
 
-@auth.verify_password
+@basic_auth.verify_password
 def verify_password(username, password):
     from api.models.user import UserModel
     user = UserModel.query.filter_by(username=username).first()
@@ -25,9 +25,9 @@ def verify_password(username, password):
     return user
 
 
-# @token_auth.verify_token
-# def verify_token(token):
-#     from api.models.user import UserModel
-#     user = UserModel.verify_auth_token(token)
-#     print(f"{user=}")
-#     return user
+@token_auth.verify_token
+def verify_token(token):
+    from api.models.user import UserModel
+    user = UserModel.verify_auth_token(token)
+    print(f"{user=}")
+    return user
